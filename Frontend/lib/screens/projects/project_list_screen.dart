@@ -18,7 +18,6 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
   final _statusOptions = [
     {'label': 'Tümü', 'value': null},
     {'label': 'Açık', 'value': 'OPEN'},
-    {'label': 'Devam Ediyor', 'value': 'IN_PROGRESS'},
     {'label': 'Tamamlandı', 'value': 'COMPLETED'},
   ];
 

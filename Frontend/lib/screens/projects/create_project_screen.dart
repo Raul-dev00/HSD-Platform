@@ -32,7 +32,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
             _descCtrl.text.trim(),
           );
       if (mounted) {
-        context.go('/projects/${project.id}');
+        context.pushReplacement('/projects/${project.id}');
       }
     } catch (e) {
       if (mounted) {

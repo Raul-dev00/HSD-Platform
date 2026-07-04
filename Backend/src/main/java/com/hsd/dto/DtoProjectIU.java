@@ -1,5 +1,6 @@
 package com.hsd.dto;
 
+import com.hsd.entities.Project.ProjectStatus;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,4 +15,6 @@ public class DtoProjectIU {
     private String name;
 
     private String description;
+
+    private ProjectStatus status;
 }

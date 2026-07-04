@@ -61,6 +61,7 @@ public class ProjectServiceImpl implements IProjectService {
 
         if (request.getName() != null) project.setName(request.getName());
         if (request.getDescription() != null) project.setDescription(request.getDescription());
+        if (request.getStatus() != null) project.setStatus(request.getStatus());
 
         return mapToDto(projectRepository.save(project));
     }

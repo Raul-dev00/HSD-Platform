@@ -75,6 +75,17 @@ class ProjectProvider extends ChangeNotifier {
     );
   }
 
+  Future<void> updateProjectStatus(int projectId, String status) async {
+    final proj = await getProjectById(projectId);
+    await ApiService.put('${AppConstants.projects}/$projectId', {
+      'name': proj.name,
+      'description': proj.description ?? '',
+      'status': status,
+    });
+    // refresh the list
+    await loadProjects();
+  }
+
   Future<void> deleteProject(int id) async {
     await ApiService.delete('${AppConstants.projects}/$id');
     _projects.removeWhere((p) => p.id == id);

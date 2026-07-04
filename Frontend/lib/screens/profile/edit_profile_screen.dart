@@ -25,6 +25,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final Set<int> _selectedSkillIds = {};
   bool _loading = false;
 
+  bool _skillsLoading = true;
+
   @override
   void initState() {
     super.initState();
@@ -46,7 +48,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       setState(() {
         _allSkills = (data as List).map((e) => Skill.fromJson(e)).toList();
       });
-    } catch (_) {}
+    } catch (_) {
+    } finally {
+      if (mounted) setState(() => _skillsLoading = false);
+    }
   }
 
   Future<void> _save() async {
@@ -174,8 +179,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const Text('Yetenekler',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              if (_allSkills.isEmpty)
+              if (_skillsLoading)
                 const Center(child: CircularProgressIndicator())
+              else if (_allSkills.isEmpty)
+                const Text('Seçilebilecek yetenek bulunamadı.', style: TextStyle(color: Colors.grey))
               else
                 Wrap(
                   spacing: 8,

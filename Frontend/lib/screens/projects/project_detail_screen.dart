@@ -95,6 +95,23 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
     }
   }
 
+  Future<void> _updateProjectStatus(String status) async {
+    try {
+      await context.read<ProjectProvider>().updateProjectStatus(widget.projectId, status);
+      await _load();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Proje durumu güncellendi!'), backgroundColor: Colors.green),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.toString()), backgroundColor: Colors.red));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_loading) {
@@ -163,6 +180,23 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                 ),
               ),
               const SizedBox(height: 16),
+
+              // Proje durumu güncelleme butonu (Sadece proje sahibi ve henüz tamamlanmamışsa)
+              if (_isOwner && _project!.status != 'COMPLETED') ...[
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: () => _updateProjectStatus('COMPLETED'),
+                    icon: const Icon(Icons.check_circle),
+                    label: const Text('Projeyi Tamamlandı Olarak İşaretle'),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
 
               // Açıklama
               if (_project!.description != null && _project!.description!.isNotEmpty) ...[
