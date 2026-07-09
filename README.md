@@ -46,6 +46,7 @@ Bu proje, hem **Spring Boot** tabanlı güçlü bir backend mimarisine, hem de *
  <p align="center">
   <img src="Images/Screenshot_20260709_163856.png" width="250">
 </p>
+
 * **Mesajlar:** Katıldığınız projelerin sohbet odaları ve direkt mesajlarınız (WebSocket tabanlı) yer alır. Anlık yenileme için sayfayı aşağı kaydırabilirsiniz.
   <p align="center">
   <img src="Images/Screenshot_20260709_163953.png" width="220">
