@@ -44,6 +44,7 @@ Bu proje, hem **Spring Boot** tabanlı güçlü bir backend mimarisine, hem de *
 
 * **Ana Sayfa:** Güncel ve aktif projeler listelenir.
   <img src="Images/Screenshot_20260709_163856.png" width="250">
+  
 * **Mesajlar:** Katıldığınız projelerin sohbet odaları ve direkt mesajlarınız (WebSocket tabanlı) yer alır. Anlık yenileme için sayfayı aşağı kaydırabilirsiniz.
   <p align="center">
   <img src="Images/Screenshot_20260709_163953.png" width="220">
@@ -52,8 +53,9 @@ Bu proje, hem **Spring Boot** tabanlı güçlü bir backend mimarisine, hem de *
 </p>
 
 * **Üniversiteler:** Platformu kullanan diğer kişilerin hangi üniversitelerde okuduğunu listeleyebilir, arama yapabilirsiniz.
+  <img src="Images/Screenshot_20260709_164256.png" width="250">
 * **Profil:** Kendi yeteneklerinizi seçtiğiniz, açık kaynak projelerinizi veya profesyonel ağlarınızı eklediğiniz kontrol merkezidir.
-
+  <img src="Images/Screenshot_20260709_164311.png" width="250">
 ---
 
 
