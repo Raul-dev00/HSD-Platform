@@ -43,8 +43,9 @@ Bu proje, hem **Spring Boot** tabanlı güçlü bir backend mimarisine, hem de *
 ## 📱 Ekran Görüntüleri ve Kullanım
 
 * **Ana Sayfa:** Güncel ve aktif projeler listelenir.
+ <p align="center">
   <img src="Images/Screenshot_20260709_163856.png" width="250">
-  
+</p>
 * **Mesajlar:** Katıldığınız projelerin sohbet odaları ve direkt mesajlarınız (WebSocket tabanlı) yer alır. Anlık yenileme için sayfayı aşağı kaydırabilirsiniz.
   <p align="center">
   <img src="Images/Screenshot_20260709_163953.png" width="220">
@@ -56,6 +57,7 @@ Bu proje, hem **Spring Boot** tabanlı güçlü bir backend mimarisine, hem de *
   <p align="center">
   <img src="Images/Screenshot_20260709_164256.png" width="250">
 </p>
+
 * **Profil:** Kendi yeteneklerinizi seçtiğiniz, açık kaynak projelerinizi veya profesyonel ağlarınızı eklediğiniz kontrol merkezidir.
   <p align="center">
   <img src="Images/Screenshot_20260709_164311.png" width="250">
