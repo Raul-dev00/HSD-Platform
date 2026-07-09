@@ -1,4 +1,4 @@
-# HSD Proje & Ekip Arkadaşı Bulma Platformu 🚀
+# HSD Proje & Ekip Arkadaşı Bulma Platformu 
 
 HSD (Huawei Student Developers) Mobil Uygulaması, üniversite öğrencilerinin projelerine ekip arkadaşı bulmalarını, yeteneklerine göre diğer öğrencilerle eşleşmelerini ve gerçek zamanlı olarak mesajlaşabilmelerini sağlayan kapsamlı bir mobil platformdur.
 
@@ -6,7 +6,7 @@ Bu proje, hem **Spring Boot** tabanlı güçlü bir backend mimarisine, hem de *
 
 ---
 
-## 🌟 Öne Çıkan Özellikler
+##  Öne Çıkan Özellikler
 
 * **Kullanıcı Doğrulama & Yetkilendirme:** JWT (JSON Web Token) tabanlı güvenli kayıt ve giriş sistemi.
 * **Detaylı Profil Yönetimi:** Kullanıcıların üniversite, bölüm, yetenekler (skills), bio, GitHub ve LinkedIn gibi profillerini düzenleyebilmesi.
@@ -21,7 +21,7 @@ Bu proje, hem **Spring Boot** tabanlı güçlü bir backend mimarisine, hem de *
 
 ---
 
-## 🛠️ Kullanılan Teknolojiler
+##  Kullanılan Teknolojiler
 
 ### Backend (Sunucu Tarafı)
 * **Java 17+** & **Spring Boot 3.x**
@@ -40,7 +40,7 @@ Bu proje, hem **Spring Boot** tabanlı güçlü bir backend mimarisine, hem de *
 
 ---
 
-## 📱 Ekran Görüntüleri ve Kullanım
+##  Ekran Görüntüleri ve Kullanım
 
 * **Ana Sayfa:** Güncel ve aktif projeler listelenir.
  <p align="center">
