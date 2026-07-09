@@ -43,33 +43,37 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
               ),
             );
           }
-          return ListView.separated(
-            padding: const EdgeInsets.all(12),
-            itemCount: myProjects.length,
-            separatorBuilder: (_, __) => const Divider(height: 1),
-            itemBuilder: (_, i) {
-              final project = myProjects[i];
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                  child: Text(
-                    project.name[0].toUpperCase(),
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      fontWeight: FontWeight.bold,
+          return RefreshIndicator(
+            onRefresh: () => context.read<ProjectProvider>().loadMyProjects(),
+            child: ListView.separated(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(12),
+              itemCount: myProjects.length,
+              separatorBuilder: (_, __) => const Divider(height: 1),
+              itemBuilder: (_, i) {
+                final project = myProjects[i];
+                return ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                    child: Text(
+                      project.name[0].toUpperCase(),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                title: Text(project.name),
-                subtitle: Text(
-                  'Proje Odası',
-                  style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
-                ),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                onTap: () => context.push('/chat/project/${project.id}',
-                    extra: project.name),
-              );
-            },
+                  title: Text(project.name),
+                  subtitle: Text(
+                    'Proje Odası',
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                  ),
+                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  onTap: () => context.push('/chat/project/${project.id}',
+                      extra: project.name),
+                );
+              },
+            ),
           );
         },
       ),

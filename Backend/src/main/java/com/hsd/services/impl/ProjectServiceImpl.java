@@ -101,8 +101,9 @@ public class ProjectServiceImpl implements IProjectService {
     @Override
     public List<DtoProjectMember> getApplications(Long projectId, String requesterEmail) {
         Project project = findProjectById(projectId);
-        ensureOwner(project, requesterEmail);
+        boolean isOwner = project.getOwner().getEmail().equals(requesterEmail);
         return projectMemberRepository.findByProjectId(projectId).stream()
+                .filter(m -> isOwner || m.getMemberStatus() == ProjectMember.MemberStatus.ACCEPTED)
                 .map(this::mapMemberToDto).collect(Collectors.toList());
     }
 
@@ -125,8 +126,11 @@ public class ProjectServiceImpl implements IProjectService {
         User user = findUserByEmail(email);
         List<Project> owned = projectRepository.findByOwnerId(user.getId());
         List<Project> joined = projectRepository.findProjectsByMemberId(user.getId());
-        owned.addAll(joined);
-        return owned.stream().distinct().map(this::mapToDto).collect(Collectors.toList());
+        
+        List<Project> allMyProjects = new java.util.ArrayList<>(owned);
+        allMyProjects.addAll(joined);
+        
+        return allMyProjects.stream().distinct().map(this::mapToDto).collect(Collectors.toList());
     }
 
     private Project findProjectById(Long id) {

@@ -1,6 +1,15 @@
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 class AppConstants {
-  // Android emülatöründen host makinenin localhost'una erişim için
-  static const String baseUrl = 'http://10.0.2.2:8080';
+  // Çalışılan platforma göre otomatik URL seçimi
+  static String get baseUrl {
+    if (kIsWeb) return 'http://localhost:8080';
+    try {
+      if (Platform.isAndroid) return 'http://10.0.2.2:8080';
+    } catch (_) {}
+    return 'http://localhost:8080';
+  }
 
   // Auth
   static const String register = '/auth/register';
@@ -24,7 +33,13 @@ class AppConstants {
   static const String messages = '/messages';
 
   // WebSocket
-  static const String wsEndpoint = 'ws://10.0.2.2:8080/ws/chat/websocket';
+  static String get wsEndpoint {
+    if (kIsWeb) return 'ws://localhost:8080/ws/chat/websocket';
+    try {
+      if (Platform.isAndroid) return 'ws://10.0.2.2:8080/ws/chat/websocket';
+    } catch (_) {}
+    return 'ws://localhost:8080/ws/chat/websocket';
+  }
   static const String wsDirectDest = '/app/chat.direct';
   static const String wsProjectDest = '/app/chat.project';
   static String wsUserQueue(String userId) => '/user/$userId/queue/messages';

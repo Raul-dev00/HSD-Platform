@@ -69,6 +69,17 @@ public class MessageServiceImpl implements IMessageService {
                 .map(this::mapToDto).collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public void clearProjectMessages(Long projectId, String requesterEmail) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST, "Proje")));
+        if (!project.getOwner().getEmail().equals(requesterEmail)) {
+            throw new BaseException(new ErrorMessage(MessageType.UNAUTHORIZED, null));
+        }
+        messageRepository.deleteByProjectId(projectId);
+    }
+
     private User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST, "Kullanıcı")));

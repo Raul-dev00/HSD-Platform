@@ -18,4 +18,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     List<Message> findDirectMessages(@Param("userId1") Long userId1, @Param("userId2") Long userId2);
 
     List<Message> findByProjectIdOrderBySentAtAsc(Long projectId);
+
+    @org.springframework.transaction.annotation.Transactional
+    void deleteByProjectId(Long projectId);
 }

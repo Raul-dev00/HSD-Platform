@@ -47,6 +47,7 @@ class ProjectProvider extends ChangeNotifier {
     });
     final project = Project.fromJson(data);
     _projects.insert(0, project);
+    _myProjects.insert(0, project);
     notifyListeners();
     return project;
   }

@@ -12,4 +12,6 @@ public interface IMessageService {
     List<DtoMessage> getDirectMessages(Long otherUserId, String currentUserEmail);
 
     List<DtoMessage> getProjectMessages(Long projectId);
+
+    void clearProjectMessages(Long projectId, String requesterEmail);
 }

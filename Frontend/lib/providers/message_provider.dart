@@ -37,6 +37,13 @@ class MessageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // REST: Proje mesajlarını sil (sadece proje sahibi)
+  Future<void> clearProjectChatBackend(int projectId) async {
+    await ApiService.delete('${AppConstants.messages}/project/$projectId');
+    _messages.clear();
+    notifyListeners();
+  }
+
   // WebSocket: Bağlan
   Future<void> connectWebSocket({
     int? projectId,

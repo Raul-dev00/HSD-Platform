@@ -13,6 +13,8 @@ class UniversityScreen extends StatefulWidget {
 
 class _UniversityScreenState extends State<UniversityScreen> {
   List<University> _universities = [];
+  List<University> _filteredUniversities = [];
+  final TextEditingController _searchCtrl = TextEditingController();
   bool _loading = true;
   String? _error;
 
@@ -20,6 +22,24 @@ class _UniversityScreenState extends State<UniversityScreen> {
   void initState() {
     super.initState();
     _load();
+    _searchCtrl.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchCtrl.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    final query = _searchCtrl.text.toLowerCase();
+    setState(() {
+      if (query.isEmpty) {
+        _filteredUniversities = _universities;
+      } else {
+        _filteredUniversities = _universities.where((u) => u.name.toLowerCase().contains(query)).toList();
+      }
+    });
   }
 
   Future<void> _load() async {
@@ -31,6 +51,7 @@ class _UniversityScreenState extends State<UniversityScreen> {
       final data = await ApiService.get(AppConstants.universities);
       setState(() {
         _universities = (data as List).map((e) => University.fromJson(e)).toList();
+        _onSearchChanged();
       });
     } catch (e) {
       setState(() => _error = e.toString());
@@ -43,19 +64,39 @@ class _UniversityScreenState extends State<UniversityScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Üniversiteler')),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : _error != null
-              ? Center(child: Text(_error!))
-              : RefreshIndicator(
-                  onRefresh: _load,
-                  child: ListView.separated(
-                    padding: const EdgeInsets.all(12),
-                    itemCount: _universities.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 8),
-                    itemBuilder: (_, i) => _UniversityCard(university: _universities[i]),
-                  ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: TextField(
+              controller: _searchCtrl,
+              decoration: InputDecoration(
+                hintText: 'Üniversite ara...',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+            ),
+          ),
+          Expanded(
+            child: _loading
+                ? const Center(child: CircularProgressIndicator())
+                : _error != null
+                    ? Center(child: Text(_error!))
+                    : RefreshIndicator(
+                        onRefresh: _load,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          itemCount: _filteredUniversities.length,
+                          separatorBuilder: (_, __) => const SizedBox(height: 8),
+                          itemBuilder: (_, i) => _UniversityCard(university: _filteredUniversities[i]),
+                        ),
+                      ),
+          ),
+        ],
+      ),
     );
   }
 }

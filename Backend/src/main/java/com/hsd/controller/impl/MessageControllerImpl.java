@@ -35,4 +35,10 @@ public class MessageControllerImpl {
     public List<DtoMessage> getProjectMessages(@PathVariable Long projectId) {
         return messageService.getProjectMessages(projectId);
     }
+
+    @DeleteMapping("/project/{projectId}")
+    public ResponseEntity<Void> clearProjectMessages(@PathVariable Long projectId, Authentication auth) {
+        messageService.clearProjectMessages(projectId, auth.getName());
+        return ResponseEntity.ok().build();
+    }
 }

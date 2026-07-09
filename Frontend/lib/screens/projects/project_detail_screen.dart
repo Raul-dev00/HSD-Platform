@@ -32,9 +32,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
       final authProvider = context.read<AuthProvider>();
       _project = await provider.getProjectById(widget.projectId);
       _isOwner = _project!.ownerId == authProvider.currentUser?.id;
-      if (_isOwner) {
-        _applications = await provider.getApplications(widget.projectId);
-      }
+      _applications = await provider.getApplications(widget.projectId);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context)
@@ -127,15 +125,22 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
       );
     }
 
+    final authProvider = context.read<AuthProvider>();
+    final currentUserId = authProvider.currentUser?.id;
+    final acceptedMembers = _applications.where((app) => app.memberStatus == 'ACCEPTED').toList();
+    final hasApplied = _applications.any((app) => app.userId == currentUserId);
+    final isAccepted = _applications.any((app) => app.userId == currentUserId && app.memberStatus == 'ACCEPTED');
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_project!.name),
         actions: [
-          // Proje chat'ine git
-          IconButton(
-            icon: const Icon(Icons.chat_outlined),
-            onPressed: () => context.push('/chat/project/${_project!.id}'),
-          ),
+          // Proje chat'ine git (sadece sahibi veya onaylanmış üye ise)
+          if (_isOwner || isAccepted)
+            IconButton(
+              icon: const Icon(Icons.chat_outlined),
+              onPressed: () => context.push('/chat/project/${_project!.id}'),
+            ),
           if (_isOwner)
             IconButton(
               icon: const Icon(Icons.delete_outline),
@@ -212,24 +217,47 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
               _InfoRow(icon: Icons.group_outlined, label: 'Üye Sayısı', value: '${_project!.memberCount}'),
               const SizedBox(height: 24),
 
-              // Başvurular (sadece proje sahibi için)
-              if (_isOwner && _applications.isNotEmpty) ...[
-                Text('Başvurular (${_applications.length})',
+              // Proje Üyeleri (herkes görebilir)
+              if (acceptedMembers.isNotEmpty) ...[
+                Text('Proje Üyeleri (${acceptedMembers.length})',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
-                ..._applications.map((app) => _ApplicationCard(
-                      application: app,
-                      onAccept: () => _updateApplicationStatus(app.id, 'ACCEPTED'),
-                      onReject: () => _updateApplicationStatus(app.id, 'REJECTED'),
-                    )),
-                const SizedBox(height: 16),
+                ...acceptedMembers.map((member) => ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const CircleAvatar(child: Icon(Icons.person)),
+                  title: Text(member.userName),
+                  subtitle: Text(member.role ?? 'Üye'),
+                )),
+                const SizedBox(height: 24),
+              ],
+
+              // Başvurular (sadece proje sahibi için ve pending olanlar)
+              if (_isOwner) ...[
+                Builder(builder: (context) {
+                  final pendingApps = _applications.where((a) => a.memberStatus == 'PENDING').toList();
+                  if (pendingApps.isEmpty) return const SizedBox.shrink();
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Bekleyen Başvurular (${pendingApps.length})',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 8),
+                      ...pendingApps.map((app) => _ApplicationCard(
+                            application: app,
+                            onAccept: () => _updateApplicationStatus(app.id, 'ACCEPTED'),
+                            onReject: () => _updateApplicationStatus(app.id, 'REJECTED'),
+                          )),
+                      const SizedBox(height: 16),
+                    ]
+                  );
+                }),
               ],
             ],
           ),
         ),
       ),
-      // Başvur butonu (proje sahibi değilse)
-      bottomNavigationBar: !_isOwner
+      // Başvur butonu (proje sahibi değilse ve henüz başvurmadıysa)
+      bottomNavigationBar: !_isOwner && !hasApplied
           ? Padding(
               padding: const EdgeInsets.all(16),
               child: FilledButton.icon(

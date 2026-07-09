@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../models/message.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/message_provider.dart';
+import '../../providers/project_provider.dart';
 
 class ChatScreen extends StatefulWidget {
   final int? projectId;
@@ -113,6 +114,41 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: [
+          if (widget.projectId != null)
+            Builder(builder: (context) {
+              final myProjects = context.read<ProjectProvider>().myProjects;
+              final proj = myProjects.where((p) => p.id == widget.projectId).firstOrNull;
+              final isOwner = proj?.ownerId == myId;
+              if (isOwner) {
+                return IconButton(
+                  icon: const Icon(Icons.delete_sweep),
+                  tooltip: 'Sohbeti Temizle',
+                  onPressed: () async {
+                    final confirm = await showDialog<bool>(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        title: const Text('Sohbeti Temizle'),
+                        content: const Text('Bu projenin tüm mesajlarını silmek istediğinizden emin misiniz? (Geri alınamaz)'),
+                        actions: [
+                          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('İptal')),
+                          FilledButton(onPressed: () => Navigator.pop(context, true), child: const Text('Sil')),
+                        ],
+                      ),
+                    );
+                    if (confirm == true && context.mounted) {
+                      try {
+                        await context.read<MessageProvider>().clearProjectChatBackend(widget.projectId!);
+                      } catch (e) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString()), backgroundColor: Colors.red));
+                        }
+                      }
+                    }
+                  },
+                );
+              }
+              return const SizedBox.shrink();
+            }),
           Consumer<MessageProvider>(
             builder: (_, provider, __) => Icon(
               Icons.circle,
