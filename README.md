@@ -53,9 +53,13 @@ Bu proje, hem **Spring Boot** tabanlı güçlü bir backend mimarisine, hem de *
 </p>
 
 * **Üniversiteler:** Platformu kullanan diğer kişilerin hangi üniversitelerde okuduğunu listeleyebilir, arama yapabilirsiniz.
+  <p align="center">
   <img src="Images/Screenshot_20260709_164256.png" width="250">
+</p>
 * **Profil:** Kendi yeteneklerinizi seçtiğiniz, açık kaynak projelerinizi veya profesyonel ağlarınızı eklediğiniz kontrol merkezidir.
+  <p align="center">
   <img src="Images/Screenshot_20260709_164311.png" width="250">
+</p>
 ---
 
 
