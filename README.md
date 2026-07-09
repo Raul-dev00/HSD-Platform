@@ -43,6 +43,7 @@ Bu proje, hem **Spring Boot** tabanlı güçlü bir backend mimarisine, hem de *
 ## 📱 Ekran Görüntüleri ve Kullanım
 
 * **Ana Sayfa:** Güncel ve aktif projeler listelenir.
+  (Images/Screenshot_20260709_163856)
 * **Mesajlar:** Katıldığınız projelerin sohbet odaları ve direkt mesajlarınız (WebSocket tabanlı) yer alır. Anlık yenileme için sayfayı aşağı kaydırabilirsiniz.
 * **Üniversiteler:** Platformu kullanan diğer kişilerin hangi üniversitelerde okuduğunu listeleyebilir, arama yapabilirsiniz.
 * **Profil:** Kendi yeteneklerinizi seçtiğiniz, açık kaynak projelerinizi veya profesyonel ağlarınızı eklediğiniz kontrol merkezidir.
