@@ -18,7 +18,6 @@ Bu proje, hem **Spring Boot** tabanlı güçlü bir backend mimarisine, hem de *
   * Birebir doğrudan mesajlaşma.
   * Kabul edilen üyeler ve proje sahibi arasında otomatik kurulan **Proje Odası (Grup Sohbeti)**.
 * **Üniversite & Topluluk Ağı:** Üniversiteleri listeleyip, hangi üniversiteden kaç üye olduğunu görme ve isme göre arama yapabilme yeteneği.
-* **Dinamik Çapraz Platform Desteği:** Android Emulator (`10.0.2.2`) ve Web Tarayıcı (`localhost`) için otomatik API URL yönlendirmeleri ile kolay geliştirme imkanı.
 
 ---
 
